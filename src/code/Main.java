@@ -14,6 +14,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ * Main.java. It's a quiz! TODO; this. later
+ *
+ * @author Marcy Ordinario
+ * @author Ryan Chu
+ * @version 1.0
+ */
 public class Main
     extends Application
 {
@@ -24,17 +31,32 @@ public class Main
 
     static
     {
+        // Throw if quiz questions don't exist
         if(Files.notExists(QUIZ_PATH))
         {
             throw new RuntimeException("Quiz question file not found");
         }
 
+        // Try to create questions from the .txt file;
+        // throw if exception occurs
         try
         {
             final List<String> quizList = Files.readAllLines(QUIZ_PATH);
+
+            // Instantiate HashMap
             QUESTION_MAP = new HashMap<>();
-            quizList.forEach(s -> QUESTION_MAP.put(s.substring(0, s.indexOf("|")),
-                                                   s.substring(s.indexOf("|") + 1)));
+
+            // ONLY add questions/answers to the HashMap
+            // if there's a "|" character that separates them -
+            // if not, then that line's in an invalid format
+            // and will be ignored
+            quizList.stream()
+                    .filter(s->s.contains("|"))
+                    .forEach(s -> QUESTION_MAP
+                            .put(s.substring(0, s.indexOf("|")),
+                                 s.substring(s.indexOf("|") + 1)));
+
+            // Get an array list from the keys
             QUESTION_LIST = new ArrayList<>(QUESTION_MAP.keySet());
         } catch(IOException e)
         {
@@ -53,9 +75,10 @@ public class Main
     }
 
     /**
+     * Starts. the. uh. ngl idk what to put here TODO;
      *
-     * @param primaryStage
-     * @throws Exception
+     * @param primaryStage Stage to show
+     * @throws Exception If an exception occurs
      */
     @Override
     public void start(final Stage primaryStage)
@@ -68,20 +91,21 @@ public class Main
     }
 
     /**
+     * Returns a task that asks a question.
      *
+     * @param question     Label object to display question to
+     * @param answer       TextField object to display answer to
+     * @param submitButton Button object to use as event
      *
-     * @param question
-     * @param answer
-     * @param submitButton
-     * @return
+     * @return             TODO; not too sure on what Object to return here
      */
-    private static Task<String> askQuestion(final Label question,
+    private static Task<Void> askQuestion(final Label question,
                                             final TextField answer,
                                             final Button submitButton)
     {
         return new Task<>() {
             @Override
-            public String call()
+            public Void call()
             {
                 final int randQuestionValue;
                 final String randQuestion;
@@ -94,60 +118,93 @@ public class Main
                 randQuestion = QUESTION_LIST.get(randQuestionValue);
                 randAnswer = QUESTION_MAP.get(randQuestion);
 
+                // Print to console to show I'm not insane
                 System.out.println("Question: " + randQuestion);
                 System.out.println("Answer: " + randAnswer);
 
+                // Display question
                 question.setText(randQuestion);
+                // REMOVE LATER - display answer to text field
+                // Yes, said text immediately gets overwritten -
+                // I'm keeping it like this though
                 answer.setPromptText(randAnswer);
 
+                // When button is clicked:
                 submitButton.setOnAction(e -> {
+                    // If answer is correct
                     if(answer.getText().equals(randAnswer))
                     {
+                        // Tell user they're correct!
                         System.out.println("Correct!");
                         question.setText("Correct!");
                     }
+                    // Else
                     else {
+                        // Shame them.
                         System.out.println("Incorrect!");
                         question.setText("Incorrect!");
                     }
                 });
 
-                return "HEEEELP";
+                // Return nothing - don't need to return a value
+                return null;
             }
         };
     }
 
-    private static Scene questionScene(final Stage primaryStage,
-                                       final int   height,
-                                       final int   width)
+    /*
+     * Returns the scene where the questions are asked.
+     *
+     * @param width  int width of the scene
+     * @param height int height of the scene
+     *
+     * @return       Scene object
+     */
+    private static Scene questionScene(final int width,
+                                       final int height)
     {
-        // QUESTIONS
-        int questionNum = 1;
-        final Label     question = new Label("Question " + questionNum);
-        final TextField answer   = new TextField();
-        final Button    submit   = new Button("Submit");
+        // Variable
+        int questionNum = 1; // Displays what question the user's on -
+                             // Currently redundant
+        final Label     questionLabel = new Label();
+        final TextField answerBox        = new TextField();
+        final Button    submitButton     = new Button("Submit");
 
         final Thread questionThread;
-        final Thread countdownThread;
+        final Thread countdownThread; // Used later, for countdown
 
-        final VBox questionBox = new VBox(question, answer, submit);
+        final VBox questionBox = new VBox(questionLabel,
+                                          answerBox,
+                                          submitButton);
         questionBox.setSpacing(10);
 
-        final Task<String> questionTask = askQuestion(question, answer, submit);
-        System.out.println("Task object created");
+        final Task<Void> questionTask = askQuestion(questionLabel,
+                                                      answerBox,
+                                                      submitButton);
+        System.out.println("Question task created");
 
+        // Not too sure what this all is yet,
+        // but it *is* necessary for the program to run
         questionThread = new Thread(questionTask);
         questionThread.setDaemon(true);
         questionThread.start();
 
-        question.setText(questionTask.getValue());
-
-        return new Scene(questionBox, height, width);
+        return new Scene(questionBox, width, height);
     }
 
+    /*
+     * Returns the beginning scene to enter the game.
+     *
+     * @param primaryStage Stage to show the scene to;
+     *                       required to set button action
+     * @param width        int width of the scene
+     * @param height       int height of the scene
+     *
+     * @return The proper Scene object
+     */
     private static Scene menuScene(final Stage primaryStage,
-                                   final int height,
-                                   final int width)
+                                   final int width,
+                                   final int height)
     {
         // INTRO MENU
         final Label menuLabel;
@@ -161,8 +218,8 @@ public class Main
         menuBox.setSpacing(10);
 
         playButton.setOnAction(e -> primaryStage.setScene(
-                questionScene(primaryStage, height, width)));
+                questionScene(width, height)));
 
-        return new Scene(menuBox, height, width);
+        return new Scene(menuBox, width, height);
     }
 }
