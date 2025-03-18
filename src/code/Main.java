@@ -1,4 +1,8 @@
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -7,12 +11,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Main.java. It's a quiz! TODO; this. later
@@ -166,16 +172,36 @@ public class Main
         // Variable
         int questionNum = 1; // Displays what question the user's on -
                              // Currently redundant
-        final Label     questionLabel = new Label();
+        final Label     questionLabel    = new Label();
+        final Label     timerLabel       = new Label();
         final TextField answerBox        = new TextField();
         final Button    submitButton     = new Button("Submit");
+
+        // Using an animation to make the timer
+        final Timeline questionTimer = new Timeline();
+        questionTimer.getKeyFrames()
+                     .addAll(Stream.iterate(10.0, d -> d >= 0, d -> d - 0.01)
+                                   .map( i -> new KeyFrame(Duration.seconds(10.0 - i),
+                                                        e -> timerLabel.setText(String.format("%.2f", i))))
+                                   .toList());
+
+        // Set to actually do stuff if the timer reaches 0
+        questionTimer.setOnFinished(e -> System.out.println("Countdown complete!"));
+
+        // Use .play to play the timer from its current state
+        // Use .stop to stop the timer and restart it (hidden)
+        // Use .pause to stop the timer at it's current state
+        // Use .playFromStart to play the timer from the start
+        questionTimer.playFromStart();
+
+
 
         final Thread questionThread;
         final Thread countdownThread; // Used later, for countdown
 
         final VBox questionBox = new VBox(questionLabel,
                                           answerBox,
-                                          submitButton);
+                                          submitButton, timerLabel);
         questionBox.setSpacing(10);
 
         final Task<Void> questionTask = askQuestion(questionLabel,
