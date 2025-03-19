@@ -21,7 +21,7 @@ import java.util.*;
  * @author Ryan Chu
  * @version 1.0
  */
-public class Main
+public class MainApp
     extends Application
 {
     private static final Path                QUIZ_PATH = Paths.get("src", "res", "quiz.txt");
