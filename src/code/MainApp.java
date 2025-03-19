@@ -1,5 +1,6 @@
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -7,12 +8,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * Main.java. It's a quiz! TODO; this. later
@@ -21,13 +25,13 @@ import java.util.*;
  * @author Ryan Chu
  * @version 1.0
  */
-public class MainApp
-    extends Application
+public class Main
+        extends Application
 {
     private static final Path                QUIZ_PATH = Paths.get("src", "res", "quiz.txt");
     private static final Map<String, String> QUESTION_MAP;
     private static final List<String>        QUESTION_LIST;
-    private static final Random              RAND = new Random();
+    private static final Random              RAND      = new Random();
 
     static
     {
@@ -51,14 +55,15 @@ public class MainApp
             // if not, then that line's in an invalid format
             // and will be ignored
             quizList.stream()
-                    .filter(s->s.contains("|"))
+                    .filter(s -> s.matches("[^|]*\\|[^|]*"))
                     .forEach(s -> QUESTION_MAP
                             .put(s.substring(0, s.indexOf("|")),
                                  s.substring(s.indexOf("|") + 1)));
 
             // Get an array list from the keys
             QUESTION_LIST = new ArrayList<>(QUESTION_MAP.keySet());
-        } catch(IOException e)
+        }
+        catch(IOException e)
         {
             throw new RuntimeException(e);
         }
@@ -74,6 +79,7 @@ public class MainApp
         launch(args);
     }
 
+
     /**
      * Starts. the. uh. ngl idk what to put here TODO;
      *
@@ -82,114 +88,137 @@ public class MainApp
      */
     @Override
     public void start(final Stage primaryStage)
-    throws Exception
+            throws
+            Exception
     {
-        primaryStage.setScene(menuScene(primaryStage,
-                                        400, 300));
+        primaryStage.setScene(menuScene(primaryStage, 400, 300));
         primaryStage.setTitle("COMP2522 - Lab 9");
         primaryStage.show();
     }
 
-    /**
-     * Returns a task that asks a question.
-     *
-     * @param question     Label object to display question to
-     * @param answer       TextField object to display answer to
-     * @param submitButton Button object to use as event
-     *
-     * @return             TODO; not too sure on what Object to return here
-     */
-    private static Task<Void> askQuestion(final Label question,
-                                            final TextField answer,
-                                            final Button submitButton)
-    {
-        return new Task<>() {
-            @Override
-            public Void call()
-            {
-                final int randQuestionValue;
-                final String randQuestion;
-                final String randAnswer;
-
-                System.out.println("Task called!");
-
-                // Instantiate rand, get question and answer
-                randQuestionValue = RAND.nextInt(QUESTION_LIST.size());
-                randQuestion = QUESTION_LIST.get(randQuestionValue);
-                randAnswer = QUESTION_MAP.get(randQuestion);
-
-                // Print to console to show I'm not insane
-                System.out.println("Question: " + randQuestion);
-                System.out.println("Answer: " + randAnswer);
-
-                // Display question
-                question.setText(randQuestion);
-                // REMOVE LATER - display answer to text field
-                // Yes, said text immediately gets overwritten -
-                // I'm keeping it like this though
-                answer.setPromptText(randAnswer);
-
-                // When button is clicked:
-                submitButton.setOnAction(e -> {
-                    // If answer is correct
-                    if(answer.getText().equals(randAnswer))
-                    {
-                        // Tell user they're correct!
-                        System.out.println("Correct!");
-                        question.setText("Correct!");
-                    }
-                    // Else
-                    else {
-                        // Shame them.
-                        System.out.println("Incorrect!");
-                        question.setText("Incorrect!");
-                    }
-                });
-
-                // Return nothing - don't need to return a value
-                return null;
-            }
-        };
-    }
-
     /*
-     * Returns the scene where the questions are asked.
-     *
-     * @param width  int width of the scene
-     * @param height int height of the scene
-     *
-     * @return       Scene object
+     * Stores functionality relating to the questions screen.
+     * Use questionSceneHandler.QUESTION_SCENE to get the scene
+     * Use askQuestion(num) to ask num questions
      */
-    private static Scene questionScene(final int width,
-                                       final int height)
+    private abstract class questionSceneHandler
     {
-        // Variable
-        int questionNum = 1; // Displays what question the user's on -
-                             // Currently redundant
-        final Label     questionLabel = new Label();
-        final TextField answerBox        = new TextField();
-        final Button    submitButton     = new Button("Submit");
+        private static final int    SPACING              = 10;
+        private static final double TIMER_START_SECONDS  = 10;
+        private static final double TIMER_CHANGE_SECONDS = 1.0 / 60;
+        private static final double TIMER_END_SECONDS    = 0;
+        private static final int    NOTHING              = 0;
 
-        final Thread questionThread;
-        final Thread countdownThread; // Used later, for countdown
+        private static final Label     QUESTION_LABEL;
+        private static final Label     TIMER_LABEL;
+        private static final Timeline  TIMER;
+        private static final TextField ANSWER_BOX;
+        private static final Button    SUBMIT_BUTTON;
+        private static final VBox      QUESTION_BOX;
+        public static final  Scene     QUESTION_SCENE;
 
-        final VBox questionBox = new VBox(questionLabel,
-                                          answerBox,
-                                          submitButton);
-        questionBox.setSpacing(10);
+        private static final List<String> questionQueue = new ArrayList<>();
 
-        final Task<Void> questionTask = askQuestion(questionLabel,
-                                                      answerBox,
-                                                      submitButton);
-        System.out.println("Question task created");
+        static
+        {
+            QUESTION_LABEL = new Label();
+            TIMER_LABEL    = new Label();
 
-        // Not too sure what this all is yet,
-        // but it *is* necessary for the program to run
-        questionThread = new Thread(questionTask);
-        questionThread.setDaemon(true);
-        questionThread.start();
+            TIMER = new Timeline(createCountdownFrames());
+            TIMER.setOnFinished(e -> answerQuestion()); //TODO make this a different function?
 
-        return new Scene(questionBox, width, height);
+            ANSWER_BOX = new TextField();
+            ANSWER_BOX.setOnAction(e -> answerQuestion());
+
+            SUBMIT_BUTTON = new Button("Submit");
+            SUBMIT_BUTTON.setOnAction(e -> answerQuestion());
+
+
+            QUESTION_BOX   = new VBox(SPACING,
+                                      QUESTION_LABEL,
+                                      ANSWER_BOX,
+                                      SUBMIT_BUTTON,
+                                      TIMER_LABEL);
+            QUESTION_SCENE = new Scene(QUESTION_BOX, 400, 400); //TODO real width and height
+        }
+
+        /**
+         * Asks num questions on the questions scene
+         * @param num the number of questions to ask
+         */
+        public static void askQuestions(final int num)
+        {
+            if(num <= NOTHING)
+            {
+                throw new IllegalArgumentException("Number of questions must be greater than 0");
+            }
+
+            questionQueue.addAll(QUESTION_LIST.stream()
+                                              .sorted(Comparator.comparing(i -> RAND.nextInt()))
+                                              .limit(num)
+                                              .toList());
+
+            getQuestionFromQueue();
+        }
+
+        /*
+         * Asks first question on the queue
+         */
+        private static void getQuestionFromQueue()
+        {
+            QUESTION_LABEL.setText(questionQueue.getFirst());
+            System.out.println("asking question: "); //TODO remove eventually
+            System.out.println(questionQueue.getFirst());
+            System.out.println(QUESTION_MAP.get(questionQueue.getFirst()) + "\n");
+            TIMER.playFromStart();
+        }
+
+        /*
+         * handles what happens when a question gets answered
+         */
+        private static void answerQuestion()
+        {
+            TIMER.stop();
+            if(QUESTION_MAP.get(questionQueue.getFirst())
+                           .equalsIgnoreCase(ANSWER_BOX.getText()))
+            {
+                System.out.println("Correct answer"); // TODO save the score
+            }
+            else
+            {
+                System.out.println("Wrong answer");
+            }
+
+            questionQueue.removeFirst();
+            if (!questionQueue.isEmpty()) {
+                ANSWER_BOX.clear();
+                getQuestionFromQueue();
+            } else {
+                System.out.println("END"); //TODO send to score screen
+            }
+
+        }
+
+        /*
+         * Used to setup the question timer
+         * seperated for readability
+         */
+        private static KeyFrame[] createCountdownFrames()
+        {
+            // Separated for readability
+            Function<Double, KeyFrame> keyFrameMaker =
+                    i -> new KeyFrame(Duration.seconds(TIMER_START_SECONDS - i),
+                                      e -> TIMER_LABEL.setText(String.format("%.2f", i)));
+
+
+            return Stream.concat(Stream.iterate(TIMER_START_SECONDS,
+                                                d -> d > TIMER_END_SECONDS,
+                                                d -> d - TIMER_CHANGE_SECONDS),
+                                 Stream.of(TIMER_END_SECONDS)
+                                )
+                         .map(keyFrameMaker)
+                         .toArray(KeyFrame[]::new);
+        }
     }
 
     /*
@@ -207,19 +236,23 @@ public class MainApp
                                    final int height)
     {
         // INTRO MENU
-        final Label menuLabel;
+        final Label  menuLabel;
         final Button playButton;
 
-        menuLabel = new Label("Welcome! play my game");
+        menuLabel  = new Label("Welcome! play my game");
         playButton = new Button("Play my game. you know you wanna");
 
-        final VBox menuBox = new VBox(menuLabel, playButton);
+        final VBox menuBox = new VBox(menuLabel,
+                                      playButton);
         menuBox.setAlignment(Pos.CENTER);
         menuBox.setSpacing(10);
 
         playButton.setOnAction(e -> primaryStage.setScene(
-                questionScene(width, height)));
+                questionSceneHandler.QUESTION_SCENE));
+        questionSceneHandler.askQuestions(2);
 
-        return new Scene(menuBox, width, height);
+        return new Scene(menuBox,
+                         width,
+                         height);
     }
 }
