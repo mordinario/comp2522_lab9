@@ -21,11 +21,11 @@ import java.util.stream.Stream;
 /**
  * Main.java. It's a quiz! TODO; this. later
  *
- * @author Marcy Ordinario
  * @author Ryan Chu
+ * @author Marcy Ordinario
  * @version 1.0
  */
-public class Main
+public class MainApp
         extends Application
 {
     private static final Path                QUIZ_PATH = Paths.get("src", "res", "quiz.txt");
@@ -69,39 +69,12 @@ public class Main
         }
     }
 
-    /**
-     * Runs the program.
-     *
-     * @param args unused for this program
-     */
-    public static void main(String[] args)
-    {
-        launch(args);
-    }
-
-
-    /**
-     * Starts. the. uh. ngl idk what to put here TODO;
-     *
-     * @param primaryStage Stage to show
-     * @throws Exception If an exception occurs
-     */
-    @Override
-    public void start(final Stage primaryStage)
-            throws
-            Exception
-    {
-        primaryStage.setScene(menuScene(primaryStage, 400, 300));
-        primaryStage.setTitle("COMP2522 - Lab 9");
-        primaryStage.show();
-    }
-
     /*
      * Stores functionality relating to the questions screen.
      * Use questionSceneHandler.QUESTION_SCENE to get the scene
      * Use askQuestion(num) to ask num questions
      */
-    private abstract class questionSceneHandler
+    private abstract static class questionSceneHandler
     {
         private static final int    SPACING              = 10;
         private static final double TIMER_START_SECONDS  = 10;
@@ -111,11 +84,15 @@ public class Main
 
         private static final Label     QUESTION_LABEL;
         private static final Label     TIMER_LABEL;
+        private static final Label     CORRECT_LABEL;
+        private static final Label     SCORE_LABEL;
         private static final Timeline  TIMER;
         private static final TextField ANSWER_BOX;
         private static final Button    SUBMIT_BUTTON;
         private static final VBox      QUESTION_BOX;
         public static final  Scene     QUESTION_SCENE;
+
+        private static int score;
 
         private static final List<String> questionQueue = new ArrayList<>();
 
@@ -123,6 +100,9 @@ public class Main
         {
             QUESTION_LABEL = new Label();
             TIMER_LABEL    = new Label();
+            CORRECT_LABEL  = new Label();
+            SCORE_LABEL    = new Label();
+            score = 0;
 
             TIMER = new Timeline(createCountdownFrames());
             TIMER.setOnFinished(e -> answerQuestion()); //TODO make this a different function?
@@ -133,12 +113,13 @@ public class Main
             SUBMIT_BUTTON = new Button("Submit");
             SUBMIT_BUTTON.setOnAction(e -> answerQuestion());
 
-
             QUESTION_BOX   = new VBox(SPACING,
                                       QUESTION_LABEL,
                                       ANSWER_BOX,
                                       SUBMIT_BUTTON,
-                                      TIMER_LABEL);
+                                      TIMER_LABEL,
+                                      CORRECT_LABEL,
+                                      SCORE_LABEL);
             QUESTION_SCENE = new Scene(QUESTION_BOX, 400, 400); //TODO real width and height
         }
 
@@ -150,7 +131,13 @@ public class Main
         {
             if(num <= NOTHING)
             {
-                throw new IllegalArgumentException("Number of questions must be greater than 0");
+                throw new IllegalArgumentException(
+                        "Number of questions must be greater than 0");
+            }
+            if(num > QUESTION_LIST.size())
+            {
+                throw new IllegalArgumentException(
+                        "Number of questions larger than question bank");
             }
 
             questionQueue.addAll(QUESTION_LIST.stream()
@@ -183,25 +170,32 @@ public class Main
                            .equalsIgnoreCase(ANSWER_BOX.getText()))
             {
                 System.out.println("Correct answer"); // TODO save the score
+                CORRECT_LABEL.setText("Correct!");
+                score++;
             }
             else
             {
                 System.out.println("Wrong answer");
+                CORRECT_LABEL.setText("Incorrect.");
             }
 
             questionQueue.removeFirst();
-            if (!questionQueue.isEmpty()) {
+
+            if (!questionQueue.isEmpty())
+            {
                 ANSWER_BOX.clear();
                 getQuestionFromQueue();
             } else {
                 System.out.println("END"); //TODO send to score screen
+                QUESTION_LABEL.setText("The end!");
+                SCORE_LABEL.setText("Score: " + score);
             }
 
         }
 
         /*
-         * Used to setup the question timer
-         * seperated for readability
+         * Used to set up the question timer
+         * separated for readability
          */
         private static KeyFrame[] createCountdownFrames()
         {
@@ -209,7 +203,6 @@ public class Main
             Function<Double, KeyFrame> keyFrameMaker =
                     i -> new KeyFrame(Duration.seconds(TIMER_START_SECONDS - i),
                                       e -> TIMER_LABEL.setText(String.format("%.2f", i)));
-
 
             return Stream.concat(Stream.iterate(TIMER_START_SECONDS,
                                                 d -> d > TIMER_END_SECONDS,
@@ -219,6 +212,33 @@ public class Main
                          .map(keyFrameMaker)
                          .toArray(KeyFrame[]::new);
         }
+    }
+
+    /**
+     * Runs the program.
+     *
+     * @param args unused for this program
+     */
+    public static void main(String[] args)
+    {
+        launch(args);
+    }
+
+
+    /**
+     * Starts. the. uh. ngl idk what to put here TODO;
+     *
+     * @param primaryStage Stage to show
+     * @throws Exception If an exception occurs
+     */
+    @Override
+    public void start(final Stage primaryStage)
+            throws
+            Exception
+    {
+        primaryStage.setScene(menuScene(primaryStage, 400, 300));
+        primaryStage.setTitle("COMP2522 - Lab 9");
+        primaryStage.show();
     }
 
     /*
@@ -249,7 +269,7 @@ public class Main
 
         playButton.setOnAction(e -> primaryStage.setScene(
                 questionSceneHandler.QUESTION_SCENE));
-        questionSceneHandler.askQuestions(2);
+        questionSceneHandler.askQuestions(10);
 
         return new Scene(menuBox,
                          width,

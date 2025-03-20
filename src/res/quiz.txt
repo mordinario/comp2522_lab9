@@ -5,6 +5,257 @@ Name a programming language starting with J?|Java
 What is the largest planet in our solar system?|Jupiter
 What is the chemical symbol for water?|H2O
 Who wrote "Hamlet"?|Shakespeare
-What is 5 x 6?|30
 What is the freezing point of water in Celsius?|0
 What is the largest ocean on Earth?|Pacific
+How many holes in a polo?|Four
+What is the symbol for Hydrogen in the periodic table?|H
+What is the symbol for Helium in the periodic table?|He
+What is the symbol for Lithium in the periodic table?|Li
+What is the symbol for Beryllium in the periodic table?|Be
+What is the symbol for Boron in the periodic table?|B
+What is the symbol for Carbon in the periodic table?|C
+What is the symbol for Nitrogen in the periodic table?|N
+What is the symbol for Oxygen in the periodic table?|O
+What is the symbol for Fluorine in the periodic table?|F
+What is the symbol for Neon in the periodic table?|Ne
+What is the symbol for Sodium in the periodic table?|Na
+What is the symbol for Magnesium in the periodic table?|Mg
+What is the symbol for Aluminum in the periodic table?|Al
+What is the symbol for Silicon in the periodic table?|Si
+What is the symbol for Phosphorus in the periodic table?|P
+What is the symbol for Sulfur in the periodic table?|S
+What is the symbol for Chlorine in the periodic table?|Cl
+What is the symbol for Argon in the periodic table?|Ar
+What is the symbol for Potassium in the periodic table?|K
+What is the symbol for Calcium in the periodic table?|Ca
+What is the symbol for Scandium in the periodic table?|Sc
+What is the symbol for Titanium in the periodic table?|Ti
+What is the symbol for Vanadium in the periodic table?|V
+What is the symbol for Chromium in the periodic table?|Cr
+What is the symbol for Manganese in the periodic table?|Mn
+What is the symbol for Iron in the periodic table?|Fe
+What is the symbol for Cobalt in the periodic table?|Co
+What is the symbol for Nickel in the periodic table?|Ni
+What is the symbol for Copper in the periodic table?|Cu
+What is the symbol for Zinc in the periodic table?|Zn
+What is the symbol for Gallium in the periodic table?|Ga
+What is the symbol for Germanium in the periodic table?|Ge
+What is the symbol for Arsenic in the periodic table?|As
+What is the symbol for Selenium in the periodic table?|Se
+What is the symbol for Bromine in the periodic table?|Br
+What is the symbol for Krypton in the periodic table?|Kr
+What is the symbol for Rubidium in the periodic table?|Rb
+What is the symbol for Strontium in the periodic table?|Sr
+What is the symbol for Yttrium in the periodic table?|Y
+What is the symbol for Zirconium in the periodic table?|Zr
+What is the symbol for Niobium in the periodic table?|Nb
+What is the symbol for Molybdenum in the periodic table?|Mo
+What is the symbol for Technetium in the periodic table?|Tc
+What is the symbol for Ruthenium in the periodic table?|Ru
+What is the symbol for Rhodium in the periodic table?|Rh
+What is the symbol for Palladium in the periodic table?|Pd
+What is the symbol for Silver in the periodic table?|Ag
+What is the symbol for Cadmium in the periodic table?|Cd
+What is the symbol for Indium in the periodic table?|In
+What is the symbol for Tin in the periodic table?|Sn
+What is the symbol for Antimony in the periodic table?|Sb
+What is the symbol for Tellurium in the periodic table?|Te
+What is the symbol for Iodine in the periodic table?|I
+What is the symbol for Xenon in the periodic table?|Xe
+What is the symbol for Cesium in the periodic table?|Cs
+What is the symbol for Barium in the periodic table?|Ba
+What is the symbol for Lanthanum in the periodic table?|La
+What is the symbol for Cerium in the periodic table?|Ce
+What is the symbol for Praseodymium in the periodic table?|Pr
+What is the symbol for Neodymium in the periodic table?|Nd
+What is the symbol for Promethium in the periodic table?|Pm
+What is the symbol for Samarium in the periodic table?|Sm
+What is the symbol for Europium in the periodic table?|Eu
+What is the symbol for Gadolinium in the periodic table?|Gd
+What is the symbol for Terbium in the periodic table?|Tb
+What is the symbol for Dysprosium in the periodic table?|Dy
+What is the symbol for Holmium in the periodic table?|Ho
+What is the symbol for Erbium in the periodic table?|Er
+What is the symbol for Thulium in the periodic table?|Tm
+What is the symbol for Ytterbium in the periodic table?|Yb
+What is the symbol for Lutetium in the periodic table?|Lu
+What is the symbol for Hafnium in the periodic table?|Hf
+What is the symbol for Tantalum in the periodic table?|Ta
+What is the symbol for Tungsten in the periodic table?|W
+What is the symbol for Rhenium in the periodic table?|Re
+What is the symbol for Osmium in the periodic table?|Os
+What is the symbol for Iridium in the periodic table?|Ir
+What is the symbol for Platinum in the periodic table?|Pt
+What is the symbol for Gold in the periodic table?|Au
+What is the symbol for Mercury in the periodic table?|Hg
+What is the symbol for Thallium in the periodic table?|Tl
+What is the symbol for Lead in the periodic table?|Pb
+What is the symbol for Bismuth in the periodic table?|Bi
+What is the symbol for Polonium in the periodic table?|Po
+What is the symbol for Astatine in the periodic table?|At
+What is the symbol for Radon in the periodic table?|Rn
+What is the symbol for Francium in the periodic table?|Fr
+What is the symbol for Radium in the periodic table?|Ra
+What is the symbol for Actinium in the periodic table?|Ac
+What is the symbol for Thorium in the periodic table?|Th
+What is the symbol for Protactinium in the periodic table?|Pa
+What is the symbol for Uranium in the periodic table?|U
+What is the symbol for Neptunium in the periodic table?|Np
+What is the symbol for Plutonium in the periodic table?|Pu
+What is the symbol for Americium in the periodic table?|Am
+What is the symbol for Curium in the periodic table?|Cm
+What is the symbol for Berkelium in the periodic table?|Bk
+What is the symbol for Californium in the periodic table?|Cf
+What is the symbol for Einsteinium in the periodic table?|Es
+What is the symbol for Fermium in the periodic table?|Fm
+What is the symbol for Mendelevium in the periodic table?|Md
+What is the symbol for Nobelium in the periodic table?|No
+What is the symbol for Lawrencium in the periodic table?|Lr
+What is the symbol for Rutherfordium in the periodic table?|Rf
+What is the symbol for Dubnium in the periodic table?|Db
+What is the symbol for Seaborgium in the periodic table?|Sg
+What is the symbol for Bohrium in the periodic table?|Bh
+What is the symbol for Hassium in the periodic table?|Hs
+What is the symbol for Meitnerium in the periodic table?|Mt
+What is the symbol for Darmstadtium in the periodic table?|Ds
+What is the symbol for Roentgenium in the periodic table?|Rg
+What is the symbol for Copernicium in the periodic table?|Cn
+What is the symbol for Nihonium in the periodic table?|Nh
+What is the symbol for Flerovium in the periodic table?|Fl
+What is the symbol for Moscovium in the periodic table?|Mc
+What is the symbol for Livermorium in the periodic table?|Lv
+What is the symbol for Tennessine in the periodic table?|Ts
+What is the symbol for Oganesson in the periodic table?|Og
+What is 1 x 1?|1
+What is 1 x 2?|2
+What is 1 x 3?|3
+What is 1 x 4?|4
+What is 1 x 5?|5
+What is 1 x 6?|6
+What is 1 x 7?|7
+What is 1 x 8?|8
+What is 1 x 9?|9
+What is 1 x 10?|10
+What is 2 x 1?|2
+What is 2 x 2?|4
+What is 2 x 3?|6
+What is 2 x 4?|8
+What is 2 x 5?|10
+What is 2 x 6?|12
+What is 2 x 7?|14
+What is 2 x 8?|16
+What is 2 x 9?|18
+What is 2 x 10?|20
+What is 3 x 1?|3
+What is 3 x 2?|6
+What is 3 x 3?|9
+What is 3 x 4?|12
+What is 3 x 5?|15
+What is 3 x 6?|18
+What is 3 x 7?|21
+What is 3 x 8?|24
+What is 3 x 9?|27
+What is 3 x 10?|30
+What is 4 x 1?|4
+What is 4 x 2?|8
+What is 4 x 3?|12
+What is 4 x 4?|16
+What is 4 x 5?|20
+What is 4 x 6?|24
+What is 4 x 7?|28
+What is 4 x 8?|32
+What is 4 x 9?|36
+What is 4 x 10?|40
+What is 5 x 1?|5
+What is 5 x 2?|10
+What is 5 x 3?|15
+What is 5 x 4?|20
+What is 5 x 5?|25
+What is 5 x 6?|30
+What is 5 x 7?|35
+What is 5 x 8?|40
+What is 5 x 9?|45
+What is 5 x 10?|50
+What is 6 x 1?|6
+What is 6 x 2?|12
+What is 6 x 3?|18
+What is 6 x 4?|24
+What is 6 x 5?|30
+What is 6 x 6?|36
+What is 6 x 7?|42
+What is 6 x 8?|48
+What is 6 x 9?|54
+What is 6 x 10?|60
+What is 7 x 1?|7
+What is 7 x 2?|14
+What is 7 x 3?|21
+What is 7 x 4?|28
+What is 7 x 5?|35
+What is 7 x 6?|42
+What is 7 x 7?|49
+What is 7 x 8?|56
+What is 7 x 9?|63
+What is 7 x 10?|70
+What is 8 x 1?|8
+What is 8 x 2?|16
+What is 8 x 3?|24
+What is 8 x 4?|32
+What is 8 x 5?|40
+What is 8 x 6?|48
+What is 8 x 7?|56
+What is 8 x 8?|64
+What is 8 x 9?|72
+What is 8 x 10?|80
+What is 9 x 1?|9
+What is 9 x 2?|18
+What is 9 x 3?|27
+What is 9 x 4?|36
+What is 9 x 5?|45
+What is 9 x 6?|54
+What is 9 x 7?|63
+What is 9 x 8?|72
+What is 9 x 9?|81
+What is 9 x 10?|90
+What is 10 x 1?|10
+What is 10 x 2?|20
+What is 10 x 3?|30
+What is 10 x 4?|40
+What is 10 x 5?|50
+What is 10 x 6?|60
+What is 10 x 7?|70
+What is 10 x 8?|80
+What is 10 x 9?|90
+What is 10 x 10?|100
+wagoo waggo?|deeblewomp
+What is 1 in binary?|1
+What is 2 in binary?|10
+What is 3 in binary?|11
+What is 4 in binary?|100
+What is 5 in binary?|101
+What is 6 in binary?|110
+What is 7 in binary?|111
+What is 8 in binary?|1000
+What is 9 in binary?|1001
+What is 10 in binary?|1010
+What is 11 in binary?|1011
+What is 12 in binary?|1100
+What is 13 in binary?|1101
+What is 14 in binary?|1110
+What is 15 in binary?|1111
+What is 16 in binary?|10000
+What is 17 in binary?|10001
+What is 18 in binary?|10010
+What is 19 in binary?|10011
+What is 20 in binary?|10100
+What is 21 in binary?|10101
+What is 22 in binary?|10110
+What is 23 in binary?|10111
+What is 24 in binary?|11000
+What is 25 in binary?|11001
+What is 26 in binary?|11010
+What is 27 in binary?|11011
+What is 28 in binary?|11100
+What is 29 in binary?|11101
+What is 30 in binary?|11110
+What is 31 in binary?|11111
+What is 32 in binary?|100000
